@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Green Valley Apartments",
+    "address": "Block A, Green Valley, Sector 12"
+  },
+  {
+    "id": 2,
+    "name": "Sunrise Heights",
+    "address": "Tower B, Sunrise Heights, Phase 2"
+  },
+  {
+    "id": 3,
+    "name": "Royal Residency",
+    "address": "Building C, Royal Residency, Main Road"
+  },
+  {
+    "id": 4,
+    "name": "Pearl Gardens",
+    "address": "Block D, Pearl Gardens, Near Metro"
+  },
+  {
+    "id": 5,
+    "name": "Golden Heights",
+    "address": "Tower E, Golden Heights, City Center"
+  },
+  {
+    "id": 6,
+    "name": "Silver Oak Apartments",
+    "address": "Block F, Silver Oak, Sector 15"
+  }
+]
