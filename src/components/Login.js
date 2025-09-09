@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Login = ({ setUser }) => {
   const [mobile, setMobile] = useState('');
+  const [name, setName] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -14,6 +15,11 @@ const Login = ({ setUser }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setError('');
+
+    if (!name.trim()) {
+      setError('Please enter your name');
+      return;
+    }
 
     if (!mobile) {
       setError('Please enter your mobile number');
@@ -27,6 +33,7 @@ const Login = ({ setUser }) => {
 
     // Create user object and save to localStorage
     const userData = {
+      name: name.trim(),
       mobile: mobile,
       loginTime: new Date().toISOString()
     };
@@ -41,12 +48,26 @@ const Login = ({ setUser }) => {
       <div className="login-card">
         <h1 className="login-title">🍽️ Food Delivery</h1>
         <p style={{ textAlign: 'center', marginBottom: '2rem', color: '#666' }}>
-          Enter your mobile number to continue
+          Enter your details to continue
         </p>
         
         {error && <div className="error">{error}</div>}
         
         <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="name" className="form-label">
+              Full Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              className="form-input"
+              placeholder="Enter your full name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+          
           <div className="form-group">
             <label htmlFor="mobile" className="form-label">
               Mobile Number

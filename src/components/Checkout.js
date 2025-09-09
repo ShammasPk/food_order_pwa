@@ -62,6 +62,9 @@ const Checkout = ({ cart, removeFromCart, addToCart, user }) => {
                 src={item.image} 
                 alt={item.name}
                 className="cart-item-image"
+                onError={(e) => {
+                  e.target.src = '/images/placeholder-food.svg';
+                }}
               />
               <div className="cart-item-details">
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>

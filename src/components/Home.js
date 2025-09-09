@@ -33,7 +33,7 @@ const Home = ({ cart, addToCart, removeFromCart, user }) => {
         <div className="header-content">
           <div className="logo">🍽️ Food Delivery</div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <span>Hi, {user.mobile}</span>
+            <span>Hi, {user.name}</span>
             <button 
               className="cart-icon"
               onClick={() => navigate('/checkout')}
@@ -46,16 +46,10 @@ const Home = ({ cart, addToCart, removeFromCart, user }) => {
             </button>
             <button 
               onClick={handleLogout}
-              style={{ 
-                background: 'rgba(255,255,255,0.2)', 
-                border: 'none', 
-                color: 'white', 
-                padding: '0.5rem', 
-                borderRadius: '5px',
-                cursor: 'pointer'
-              }}
+              className="cart-icon"
+              title="Logout"
             >
-              Logout
+              ⏻
             </button>
           </div>
         </div>
@@ -74,6 +68,9 @@ const Home = ({ cart, addToCart, removeFromCart, user }) => {
                 src={item.image} 
                 alt={item.name}
                 className="food-image"
+                onError={(e) => {
+                  e.target.src = '/images/placeholder-food.svg';
+                }}
               />
               <div className="food-content">
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
