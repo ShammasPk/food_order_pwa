@@ -1,14 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import menuItems from '../data/menuItems.json';
+import { FaShoppingCart, FaSignOutAlt, FaChevronRight, FaStar, FaPlus, FaBars, FaTimes } from 'react-icons/fa';
+
+// Sample offer images
+const offerImages = [
+  'https://b.zmtcdn.com/data/o2_assets/da94405b04f6ae6bf64a4e2a01b1b5c11686563732.png',
+  'https://b.zmtcdn.com/data/o2_assets/8ecc3e8da6ffd18eb6c1174c7def766e1646385731.png',
+  'https://b.zmtcdn.com/data/o2_assets/5db165cbf0a3e7f061a1c7b2c0e0dcc11686405449.png'
+];
 
 const Home = ({ cart, addToCart, removeFromCart, user }) => {
-  const [items, setItems] = useState([]);
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [topPicks] = useState(menuItems.slice(0, 10)); // First 10 items as top picks
   const navigate = useNavigate();
+  const sliderRef = useRef(null);
 
+  // Auto-rotate slider
   useEffect(() => {
-    // Load menu items (simulating API call)
-    setItems(menuItems);
+    const interval = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % offerImages.length);
+    }, 3000);
+    return () => clearInterval(interval);
   }, []);
 
   const getCartItemQuantity = (itemId) => {
@@ -26,119 +40,168 @@ const Home = ({ cart, addToCart, removeFromCart, user }) => {
     window.location.reload();
   };
 
+  const handleAddToCart = (item, e) => {
+    e.stopPropagation();
+    addToCart(item);
+  };
+
   return (
-    <div>
+    <div className="mobile-container">
       {/* Header */}
       <header className="header">
         <div className="header-content">
-          <div className="logo">🍽️ Food Delivery</div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <span>Hi, {user.name}</span>
-            <button 
+          <button 
+            className="menu-toggle"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? <FaTimes /> : <FaBars />}
+          </button>
+          <div className="logo">Food Delivery</div>
+          <div className="header-actions">
+            <button
               className="cart-icon"
               onClick={() => navigate('/checkout')}
               disabled={cart.length === 0}
+              aria-label="View cart"
             >
-              🛒
+              <FaShoppingCart />
               {getTotalItems() > 0 && (
                 <span className="cart-count">{getTotalItems()}</span>
               )}
             </button>
-            <button 
-              onClick={handleLogout}
-              className="cart-icon"
-              title="Logout"
-            >
-              ⏻
-            </button>
           </div>
+        </div>
+        <div className="location-bar">
+          <span>Deliver to: {user?.address || 'Select Address'}</span>
+          <FaChevronRight size={12} />
+        </div>
+        
+        {/* Navigation Menu Overlay */}
+        <div 
+          className={`nav-overlay ${isMenuOpen ? 'open' : ''}`}
+          onClick={() => setIsMenuOpen(false)}
+        />
+        
+        {/* Navigation Menu */}
+        <div className={`nav-menu ${isMenuOpen ? 'open' : ''}`}>
+          <nav>
+            <ul>
+              <li><Link to="/home" onClick={() => setIsMenuOpen(false)}>Home</Link></li>
+              <li><Link to="/menu" onClick={() => setIsMenuOpen(false)}>Menu</Link></li>
+              <li><Link to="/offers" onClick={() => setIsMenuOpen(false)}>Offers</Link></li>
+              <li><Link to="/orders" onClick={() => setIsMenuOpen(false)}>My Orders</Link></li>
+              <li>
+                <button onClick={handleLogout} className="logout-btn-nav">
+                  <FaSignOutAlt /> Logout
+                </button>
+              </li>
+            </ul>
+          </nav>
         </div>
       </header>
 
-      {/* Main Content */}
-      <div className="container">
-        <h2 style={{ textAlign: 'center', margin: '2rem 0', color: '#333' }}>
-          Our Delicious Menu
-        </h2>
-
-        <div className="food-grid">
-          {items.map(item => (
-            <div key={item.id} className="food-card">
-              <img 
-                src={item.image} 
-                alt={item.name}
-                className="food-image"
-                onError={(e) => {
-                  e.target.src = '/images/placeholder-food.svg';
-                }}
+      <main className="home-content">
+        {/* Offers Slider */}
+        <div className="offers-slider" ref={sliderRef}>
+          <div 
+            className="slider-track"
+            style={{ transform: `translateX(-${activeSlide * 100}%)` }}
+          >
+            {offerImages.map((img, index) => (
+              <div key={index} className="slide">
+                <img src={img} alt={`Offer ${index + 1}`} />
+              </div>
+            ))}
+          </div>
+          <div className="slider-dots">
+            {offerImages.map((_, index) => (
+              <span 
+                key={index} 
+                className={`dot ${index === activeSlide ? 'active' : ''}`}
+                onClick={() => setActiveSlide(index)}
               />
-              <div className="food-content">
-                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
-                  <span className={item.isVeg ? 'veg-indicator' : 'non-veg-indicator'}></span>
-                  <h3 className="food-name">{item.name}</h3>
-                </div>
-                <p className="food-description">{item.description}</p>
-                <div className="food-price">₹{item.price}</div>
-                
-                <div className="food-actions">
-                  <div className="quantity-controls">
-                    {getCartItemQuantity(item.id) > 0 ? (
-                      <>
+            ))}
+          </div>
+        </div>
+
+        {/* Top Picks Section */}
+        <section className="top-picks">
+          <h2>Top Picks For You</h2>
+          <div className="food-grid">
+            {topPicks.map((item) => {
+              const quantity = getCartItemQuantity(item.id);
+              return (
+                <div 
+                  key={item.id} 
+                  className="food-card"
+                  onClick={() => navigate(`/item/${item.id}`)}
+                >
+                  <div className="food-image-container">
+                    <img 
+                      src={item.image || '/images/placeholder-food.svg'} 
+                      alt={item.name}
+                      className="food-image"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = '/images/placeholder-food.svg';
+                      }}
+                    />
+                    <div className={`veg-indicator ${item.veg ? 'veg' : 'non-veg'}`}></div>
+                    {item.bestseller && <div className="bestseller-tag">Bestseller</div>}
+                    <div className="rating-badge">
+                      <FaStar className="star-icon" />
+                      <span>{item.rating || '4.0'}</span>
+                    </div>
+                  </div>
+                  <div className="food-details">
+                    <h3>{item.name}</h3>
+                    <p className="price">₹{item.price}</p>
+                    <p className="description">{item.description}</p>
+                    {quantity > 0 ? (
+                      <div className="quantity-controls" onClick={(e) => e.stopPropagation()}>
                         <button 
-                          className="quantity-btn"
-                          onClick={() => removeFromCart(item.id)}
+                          className="quantity-btn" 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            removeFromCart(item.id);
+                          }}
                         >
                           -
                         </button>
-                        <span className="quantity-display">
-                          {getCartItemQuantity(item.id)}
-                        </span>
+                        <span className="quantity">{quantity}</span>
                         <button 
-                          className="quantity-btn"
-                          onClick={() => addToCart(item)}
+                          className="quantity-btn" 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            addToCart(item);
+                          }}
                         >
                           +
                         </button>
-                      </>
+                      </div>
                     ) : (
                       <button 
-                        className="btn btn-primary"
-                        onClick={() => addToCart(item)}
-                        disabled={!item.isAvailable}
-                        style={{ padding: '0.5rem 1rem', fontSize: '0.9rem' }}
+                        className="add-btn"
+                        onClick={(e) => handleAddToCart(item, e)}
                       >
-                        {item.isAvailable ? 'Add to Cart' : 'Not Available'}
+                        <FaPlus /> ADD
                       </button>
                     )}
                   </div>
                 </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {cart.length > 0 && (
-          <div style={{ 
-            position: 'fixed', 
-            bottom: '20px', 
-            left: '50%', 
-            transform: 'translateX(-50%)',
-            zIndex: 1000
-          }}>
-            <button 
-              className="btn btn-primary"
-              onClick={() => navigate('/checkout')}
-              style={{ 
-                padding: '1rem 2rem',
-                fontSize: '1.1rem',
-                boxShadow: '0 5px 15px rgba(0,0,0,0.3)'
-              }}
-            >
-              View Cart ({getTotalItems()} items)
-            </button>
+              );
+            })}
           </div>
-        )}
-      </div>
+        </section>
+
+        {/* View Menu Button */}
+        <div className="view-menu-btn-container">
+          <Link to="/menu" className="view-menu-btn">
+            View Full Menu <FaChevronRight />
+          </Link>
+        </div>
+      </main>
     </div>
   );
 };
