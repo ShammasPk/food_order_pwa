@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import Home from './components/Home';
+import Menu from './components/Menu';
 import Checkout from './components/Checkout';
 import DeliveryAddress from './components/DeliveryAddress';
 import Admin from './components/Admin';
@@ -94,24 +95,34 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route 
-            path="/login" 
-            element={
-              user ? <Navigate to="/home" /> : <Login setUser={setUser} />
-            } 
-          />
+          <Route path="/" element={user ? <Navigate to="/home" /> : <Login setUser={setUser} />} />
           <Route 
             path="/home" 
             element={
               user ? (
                 <Home 
+                  user={user} 
                   cart={cart} 
                   addToCart={addToCart} 
-                  removeFromCart={removeFromCart}
-                  user={user}
+                  removeFromCart={removeFromCart} 
                 />
               ) : (
-                <Navigate to="/login" />
+                <Navigate to="/" />
+              )
+            } 
+          />
+          <Route 
+            path="/menu" 
+            element={
+              user ? (
+                <Menu 
+                  user={user} 
+                  cart={cart} 
+                  addToCart={addToCart} 
+                  removeFromCart={removeFromCart} 
+                />
+              ) : (
+                <Navigate to="/" />
               )
             } 
           />

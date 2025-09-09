@@ -5,7 +5,7 @@
     "description": "Aromatic basmati rice with tender chicken pieces",
     "price": 250,
     "category": "Main Course",
-    "image": "https://via.placeholder.com/300x200?text=Chicken+Biryani",
+    "image": "/images/biryani.jpg",
     "isVeg": false,
     "isAvailable": true
   },
@@ -15,7 +15,7 @@
     "description": "Rich and creamy paneer curry with butter",
     "price": 180,
     "category": "Main Course",
-    "image": "https://via.placeholder.com/300x200?text=Paneer+Butter+Masala",
+    "image": "/images/placeholder-food.svg",
     "isVeg": true,
     "isAvailable": true
   },
@@ -25,7 +25,7 @@
     "description": "Grilled chicken marinated in spices",
     "price": 220,
     "category": "Starter",
-    "image": "https://via.placeholder.com/300x200?text=Chicken+Tikka",
+    "image": "/images/placeholder-food.svg",
     "isVeg": false,
     "isAvailable": true
   },
@@ -35,7 +35,7 @@
     "description": "Fragrant rice with mixed vegetables",
     "price": 150,
     "category": "Main Course",
-    "image": "https://via.placeholder.com/300x200?text=Veg+Pulao",
+    "image": "/images/placeholder-food.svg",
     "isVeg": true,
     "isAvailable": true
   },
@@ -45,7 +45,7 @@
     "description": "Traditional fish curry with coconut milk",
     "price": 280,
     "category": "Main Course",
-    "image": "https://via.placeholder.com/300x200?text=Fish+Curry",
+    "image": "/images/placeholder-food.svg",
     "isVeg": false,
     "isAvailable": true
   },
@@ -55,7 +55,7 @@
     "description": "Crispy dosa with spiced potato filling",
     "price": 120,
     "category": "South Indian",
-    "image": "https://via.placeholder.com/300x200?text=Masala+Dosa",
+    "image": "/images/placeholder-food.svg",
     "isVeg": true,
     "isAvailable": true
   },
@@ -65,7 +65,7 @@
     "description": "Spicy mutton curry with traditional spices",
     "price": 320,
     "category": "Main Course",
-    "image": "https://via.placeholder.com/300x200?text=Mutton+Curry",
+    "image": "/images/placeholder-food.svg",
     "isVeg": false,
     "isAvailable": true
   },
@@ -75,7 +75,7 @@
     "description": "Spicy chickpeas with fluffy bhature",
     "price": 160,
     "category": "North Indian",
-    "image": "https://via.placeholder.com/300x200?text=Chole+Bhature",
+    "image": "/images/placeholder-food.svg",
     "isVeg": true,
     "isAvailable": true
   }
