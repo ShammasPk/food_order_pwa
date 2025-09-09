@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaUser, FaMobileAlt } from 'react-icons/fa';
+import { MdOutlineDeliveryDining } from 'react-icons/md';
 
 const Login = ({ setUser }) => {
   const [mobile, setMobile] = useState('');
@@ -45,51 +47,62 @@ const Login = ({ setUser }) => {
 
   return (
     <div className="login-container">
-      <div className="login-card">
-        <h1 className="login-title">🍽️ Food Delivery</h1>
-        <p style={{ textAlign: 'center', marginBottom: '2rem', color: '#666' }}>
-          Enter your details to continue
-        </p>
-        
-        {error && <div className="error">{error}</div>}
-        
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="name" className="form-label">
-              Full Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              className="form-input"
-              placeholder="Enter your full name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+      <div className="login-content">
+        <div className="welcome-section">
+          <div className="brand-logo">
+            <img 
+              src="/images/brand-logo.jpg" 
+              alt="Brand Logo" 
+              className="brand-logo-img"
             />
           </div>
-          
-          <div className="form-group">
-            <label htmlFor="mobile" className="form-label">
-              Mobile Number
-            </label>
-            <input
-              type="tel"
-              id="mobile"
-              className="form-input"
-              placeholder="Enter 10-digit mobile number"
-              value={mobile}
-              onChange={(e) => setMobile(e.target.value)}
-              maxLength="10"
-            />
-          </div>
-          
-          <button type="submit" className="btn btn-primary">
-            Continue
-          </button>
-        </form>
+          <h1>Welcome</h1>
+          <p className="shop-address">123 Food Street, City Name, State - 123456</p>
+        </div>
         
-        <div style={{ textAlign: 'center', marginTop: '1rem', fontSize: '0.9rem', color: '#666' }}>
-          No OTP verification required
+        <div className="login-card">
+          {error && <div className="error-message">{error}</div>}
+          
+          <form onSubmit={handleSubmit} className="login-form">
+            <div className="input-group">
+              <div className="input-icon">
+                <FaUser />
+              </div>
+              <input
+                type="text"
+                className="form-input"
+                placeholder="Enter Full Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            
+            <div className="input-group">
+              <div className="phone-input">
+                <div className="country-code">
+                  <span className="country-number">+91</span>
+                </div>
+                <input
+                  type="tel"
+                  className="form-input"
+                  placeholder="Enter Mobile Number"
+                  value={mobile}
+                  onChange={(e) => setMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                  maxLength="10"
+                />
+              </div>
+            </div>
+            
+            <div className="login-footer">
+              <p className="delivery-info">
+                For faster delivery, please call us at 
+                <a href="tel:+911234567890" className="phone-link">+91 12345 67890</a>
+              </p>
+              <button type="submit" className="continue-btn">
+                CONTINUE
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

@@ -95,7 +95,11 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/" element={user ? <Navigate to="/home" /> : <Login setUser={setUser} />} />
+          <Route path="/login" element={user ? <Navigate to="/home" /> : <Login setUser={setUser} />} />
+          <Route 
+            path="/" 
+            element={user ? <Navigate to="/home" /> : <Navigate to="/login" />} 
+          />
           <Route 
             path="/home" 
             element={
