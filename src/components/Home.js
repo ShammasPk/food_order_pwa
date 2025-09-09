@@ -5,9 +5,9 @@ import { FaShoppingCart, FaSignOutAlt, FaChevronRight, FaStar, FaPlus, FaBars, F
 
 // Sample offer images
 const offerImages = [
-  'https://b.zmtcdn.com/data/o2_assets/da94405b04f6ae6bf64a4e2a01b1b5c11686563732.png',
-  'https://b.zmtcdn.com/data/o2_assets/8ecc3e8da6ffd18eb6c1174c7def766e1646385731.png',
-  'https://b.zmtcdn.com/data/o2_assets/5db165cbf0a3e7f061a1c7b2c0e0dcc11686405449.png'
+  'https://placehold.co/350x200',
+  'https://placehold.co/350x200',
+  'https://placehold.co/350x200'
 ];
 
 const Home = ({ cart, addToCart, removeFromCart, user }) => {
@@ -57,7 +57,7 @@ const Home = ({ cart, addToCart, removeFromCart, user }) => {
           >
             {isMenuOpen ? <FaTimes /> : <FaBars />}
           </button>
-          <div className="logo">Food Delivery</div>
+          <div className="logo">FDPWA</div>
           <div className="header-actions">
             <button
               className="cart-icon"
@@ -156,38 +156,40 @@ const Home = ({ cart, addToCart, removeFromCart, user }) => {
                   </div>
                   <div className="food-details">
                     <h3>{item.name}</h3>
-                    <p className="price">₹{item.price}</p>
                     <p className="description">{item.description}</p>
-                    {quantity > 0 ? (
-                      <div className="quantity-controls" onClick={(e) => e.stopPropagation()}>
+                    <div className="price-row">
+                      <span className="price">₹{item.price}</span>
+                      {quantity > 0 ? (
+                        <div className="quantity-controls" onClick={(e) => e.stopPropagation()}>
+                          <button 
+                            className="quantity-btn" 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              removeFromCart(item.id);
+                            }}
+                          >
+                            -
+                          </button>
+                          <span className="quantity">{quantity}</span>
+                          <button 
+                            className="quantity-btn" 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              addToCart(item);
+                            }}
+                          >
+                            +
+                          </button>
+                        </div>
+                      ) : (
                         <button 
-                          className="quantity-btn" 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            removeFromCart(item.id);
-                          }}
+                          className="add-btn"
+                          onClick={(e) => handleAddToCart(item, e)}
                         >
-                          -
+                          <FaPlus /> ADD
                         </button>
-                        <span className="quantity">{quantity}</span>
-                        <button 
-                          className="quantity-btn" 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            addToCart(item);
-                          }}
-                        >
-                          +
-                        </button>
-                      </div>
-                    ) : (
-                      <button 
-                        className="add-btn"
-                        onClick={(e) => handleAddToCart(item, e)}
-                      >
-                        <FaPlus /> ADD
-                      </button>
-                    )}
+                      )}
+                    </div>
                   </div>
                 </div>
               );
