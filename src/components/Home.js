@@ -3,11 +3,11 @@ import { useNavigate, Link } from 'react-router-dom';
 import menuItems from '../data/menuItems.json';
 import { FaShoppingCart, FaSignOutAlt, FaChevronRight, FaStar, FaPlus, FaBars, FaTimes } from 'react-icons/fa';
 
-// Sample offer images
+// Slider images
 const offerImages = [
-  'https://placehold.co/350x200',
-  'https://placehold.co/350x200',
-  'https://placehold.co/350x200'
+  '/images/slider-1.jpg',
+  '/images/slider-2.jpg', // Using the same image for all slides for now
+  '/images/slider-3.jpg'  // You can add more slider images later
 ];
 
 const Home = ({ cart, addToCart, removeFromCart, user }) => {
