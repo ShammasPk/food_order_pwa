@@ -6,6 +6,10 @@ import Menu from './components/Menu';
 import Checkout from './components/Checkout';
 import DeliveryAddress from './components/DeliveryAddress';
 import Admin from './components/Admin';
+import ItemDetail from './components/ItemDetail';
+import Orders from './components/Orders';
+import Offers from './components/Offers';
+import Profile from './components/Profile';
 import './App.css';
 
 function App() {
@@ -131,6 +135,20 @@ function App() {
             } 
           />
           <Route 
+            path="/item/:id"
+            element={
+              user ? (
+                <ItemDetail
+                  cart={cart}
+                  addToCart={addToCart}
+                  removeFromCart={removeFromCart}
+                />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route 
             path="/checkout" 
             element={
               user ? (
@@ -162,6 +180,36 @@ function App() {
           <Route 
             path="/admin" 
             element={<Admin orders={orders} setOrders={setOrders} />} 
+          />
+          <Route 
+            path="/orders"
+            element={
+              user ? (
+                <Orders user={user} orders={orders} />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route 
+            path="/offers"
+            element={
+              user ? (
+                <Offers />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              user ? (
+                <Profile user={user} setUser={setUser} />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
           />
           <Route path="/" element={<Navigate to="/login" />} />
         </Routes>

@@ -1,32 +1,102 @@
 [
   {
     "id": 1,
-    "name": "Green Valley Apartments",
-    "address": "Block A, Green Valley, Sector 12"
+    "flatName": "Green Valley Apartments",
+    "address": "Block A, Sector 12, Near City Park"
   },
   {
     "id": 2,
-    "name": "Sunrise Heights",
-    "address": "Tower B, Sunrise Heights, Phase 2"
+    "flatName": "Sunrise Heights",
+    "address": "Tower B, Phase 2, Lake Road"
   },
   {
     "id": 3,
-    "name": "Royal Residency",
-    "address": "Building C, Royal Residency, Main Road"
+    "flatName": "Royal Residency",
+    "address": "Building C, Main Road, Gate 3"
   },
   {
     "id": 4,
-    "name": "Pearl Gardens",
-    "address": "Block D, Pearl Gardens, Near Metro"
+    "flatName": "Pearl Gardens",
+    "address": "Block D, Near Metro Station"
   },
   {
     "id": 5,
-    "name": "Golden Heights",
-    "address": "Tower E, Golden Heights, City Center"
+    "flatName": "Golden Heights",
+    "address": "Tower E, City Center, Wing 2"
   },
   {
     "id": 6,
-    "name": "Silver Oak Apartments",
-    "address": "Block F, Silver Oak, Sector 15"
+    "flatName": "Silver Oak Apartments",
+    "address": "Block F, Sector 15, Park View"
+  },
+  {
+    "id": 7,
+    "flatName": "Maple Crest",
+    "address": "Block G, Riverside Avenue"
+  },
+  {
+    "id": 8,
+    "flatName": "Palm Meadows",
+    "address": "Tower H, Golf Course Road"
+  },
+  {
+    "id": 9,
+    "flatName": "Emerald Enclave",
+    "address": "Block I, University Lane"
+  },
+  {
+    "id": 10,
+    "flatName": "Lakeview Towers",
+    "address": "Tower J, Lakeside Boulevard"
+  },
+  {
+    "id": 11,
+    "flatName": "Cedar Residency",
+    "address": "Block K, Market Street"
+  },
+  {
+    "id": 12,
+    "flatName": "Orchid Heights",
+    "address": "Tower L, Tech Park Road"
+  },
+  {
+    "id": 13,
+    "flatName": "Harmony Homes",
+    "address": "Block M, Temple Lane"
+  },
+  {
+    "id": 14,
+    "flatName": "Azure Vista",
+    "address": "Tower N, Ocean Drive"
+  },
+  {
+    "id": 15,
+    "flatName": "Coral Court",
+    "address": "Block O, Museum Road"
+  },
+  {
+    "id": 16,
+    "flatName": "Falcon Ridge",
+    "address": "Tower P, Hilltop Avenue"
+  },
+  {
+    "id": 17,
+    "flatName": "Riviera Residency",
+    "address": "Block Q, Riverwalk Street"
+  },
+  {
+    "id": 18,
+    "flatName": "Magnolia Manor",
+    "address": "Tower R, Botanical Garden Road"
+  },
+  {
+    "id": 19,
+    "flatName": "Amber Heights",
+    "address": "Block S, Central Plaza"
+  },
+  {
+    "id": 20,
+    "flatName": "Vista Verde",
+    "address": "Tower T, Airport Road"
   }
 ]

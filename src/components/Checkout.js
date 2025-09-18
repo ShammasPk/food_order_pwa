@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaTrash, FaChevronLeft, FaShoppingCart } from 'react-icons/fa';
 
 const Checkout = ({ cart, removeFromCart, addToCart, user }) => {
   const navigate = useNavigate();
@@ -15,119 +16,96 @@ const Checkout = ({ cart, removeFromCart, addToCart, user }) => {
 
   if (cart.length === 0) {
     return (
-      <div className="checkout-container">
-        <h2 className="checkout-title">Your Cart is Empty</h2>
-        <div style={{ textAlign: 'center', marginTop: '2rem' }}>
-          <button 
-            className="btn btn-primary"
-            onClick={() => navigate('/home')}
-          >
-            Continue Shopping
-          </button>
+      <div className="menu-page">
+        <header className="header">
+          <div className="header-content">
+            <button className="back-button" onClick={() => navigate(-1)} aria-label="Go back">
+              <FaChevronLeft />
+            </button>
+            <h1 className="page-title">Cart</h1>
+            <div className="header-actions" />
+          </div>
+        </header>
+
+        <div className="empty-cart">
+          <div className="empty-icon">
+            <FaShoppingCart size={42} />
+          </div>
+          <h2 className="empty-title">Your Cart is Empty</h2>
+          <p className="empty-sub">Browse the menu and add something tasty.</p>
+          <div className="view-menu-btn-container">
+            <button 
+              className="view-menu-btn"
+              onClick={() => navigate('/menu')}
+            >
+              Continue Shopping
+            </button>
+          </div>
         </div>
       </div>
     );
   }
 
+  const delivery = 30;
+  const tax = Math.round(getTotalAmount() * 0.05);
+  const total = getTotalAmount() + delivery + tax;
+
   return (
-    <div>
+    <div className="menu-page">
       {/* Header */}
       <header className="header">
         <div className="header-content">
-          <button 
-            onClick={() => navigate('/home')}
-            style={{ 
-              background: 'none', 
-              border: 'none', 
-              color: 'white', 
-              fontSize: '1.5rem',
-              cursor: 'pointer'
-            }}
-          >
-            ← Back
+          <button className="back-button" onClick={() => navigate(-1)} aria-label="Go back">
+            <FaChevronLeft />
           </button>
-          <div className="logo">Checkout</div>
-          <div></div>
+          <h1 className="page-title">Cart</h1>
+          <div className="header-actions" />
         </div>
       </header>
 
-      <div className="checkout-container">
-        <h2 className="checkout-title">Review Your Order</h2>
-
-        <div className="cart-items">
-          <h3 style={{ marginBottom: '1rem', color: '#333' }}>Order Items</h3>
+      <div className="checkout-page">
+        <div className="checkout-list">
           {cart.map(item => (
-            <div key={item.id} className="cart-item">
-              <img 
-                src={item.image} 
-                alt={item.name}
-                className="cart-item-image"
-                onError={(e) => {
-                  e.target.src = '/images/placeholder-food.svg';
-                }}
-              />
-              <div className="cart-item-details">
-                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
-                  <span className={item.isVeg ? 'veg-indicator' : 'non-veg-indicator'}></span>
-                  <h4 className="cart-item-name">{item.name}</h4>
+            <div key={item.id} className="checkout-card">
+              <div className="checkout-left">
+                <img
+                  src={item.image || '/images/placeholder-food.svg'}
+                  alt={item.name}
+                  className="checkout-thumb"
+                  onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/images/placeholder-food.svg'; }}
+                />
+              </div>
+              <div className="checkout-center">
+                <div className="checkout-title-row">
+                  <h4 className="checkout-item-name">{item.name}</h4>
+                  <button className="checkout-remove" onClick={() => removeFromCart(item.id)} aria-label="Remove item">
+                    <FaTrash size={14} />
+                  </button>
                 </div>
-                <p style={{ color: '#666', fontSize: '0.9rem', marginBottom: '0.5rem' }}>
-                  {item.description}
-                </p>
-                <div className="cart-item-price">₹{item.price} each</div>
-              </div>
-              <div className="quantity-controls">
-                <button 
-                  className="quantity-btn"
-                  onClick={() => removeFromCart(item.id)}
-                >
-                  -
-                </button>
-                <span className="quantity-display">
-                  {getCartItemQuantity(item.id)}
-                </span>
-                <button 
-                  className="quantity-btn"
-                  onClick={() => addToCart(item)}
-                >
-                  +
-                </button>
-              </div>
-              <div style={{ marginLeft: '1rem', fontWeight: 'bold', color: '#ff6b6b' }}>
-                ₹{item.price * item.quantity}
+                <div className="checkout-item-sub">{item.description}</div>
+                <div className="checkout-actions">
+                  <div className="qty-pill">
+                    <button onClick={() => removeFromCart(item.id)} aria-label="Decrease" className="qty-btn">−</button>
+                    <span className="qty-val">{getCartItemQuantity(item.id)}</span>
+                    <button onClick={() => addToCart(item)} aria-label="Increase" className="qty-btn">＋</button>
+                  </div>
+                  <div className="checkout-price">₹{(item.price * item.quantity).toFixed(2)}</div>
+                </div>
               </div>
             </div>
           ))}
         </div>
 
-        <div className="total-section">
-          <div style={{ marginBottom: '1rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-              <span>Subtotal:</span>
-              <span>₹{getTotalAmount()}</span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-              <span>Delivery Fee:</span>
-              <span>₹30</span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-              <span>GST (5%):</span>
-              <span>₹{Math.round(getTotalAmount() * 0.05)}</span>
-            </div>
-            <hr style={{ margin: '1rem 0' }} />
+        <div className="checkout-summary">
+          <div className="summary-row"><span>Subtotal:</span><span>₹{getTotalAmount().toFixed(2)}</span></div>
+          <div className="summary-row"><span>Delivery charge:</span><span>₹{delivery.toFixed(2)}</span></div>
+          <div className="summary-row"><span>Tax:</span><span>₹{tax.toFixed(2)}</span></div>
+          <div className="summary-divider" />
+          <div className="summary-row total"><span>Total</span><span>₹{total.toFixed(2)}</span></div>
+
+          <div className="view-menu-btn-container">
+            <button className="view-menu-btn" onClick={() => navigate('/delivery-address')}>Checkout</button>
           </div>
-          
-          <div className="total-amount">
-            Total: ₹{getTotalAmount() + 30 + Math.round(getTotalAmount() * 0.05)}
-          </div>
-          
-          <button 
-            className="btn btn-primary"
-            onClick={() => navigate('/delivery-address')}
-            style={{ marginTop: '1rem' }}
-          >
-            Proceed to Delivery Address
-          </button>
         </div>
       </div>
     </div>
