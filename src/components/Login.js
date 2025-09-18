@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaUser, FaMobileAlt } from 'react-icons/fa';
-import { MdOutlineDeliveryDining } from 'react-icons/md';
+import { FaUser } from 'react-icons/fa';
 
 const Login = ({ setUser }) => {
   const [mobile, setMobile] = useState('');

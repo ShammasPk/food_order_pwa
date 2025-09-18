@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "framework": "create-react-app",
+  "buildCommand": "npm install && npm run build",
+  "installCommand": "npm install",
+  "outputDirectory": "build",
+  "env": {
+    "CI": "false"
+  }
+}
