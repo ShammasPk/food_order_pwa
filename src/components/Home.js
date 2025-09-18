@@ -73,7 +73,7 @@ const Home = ({ cart, addToCart, removeFromCart, user }) => {
           >
             {isMenuOpen ? <FaTimes /> : <FaBars />}
           </button>
-          <div className="logo">FDPWA</div>
+          <div className="logo">GrillZilla</div>
           <div className="header-actions">
             <button
               className="cart-icon"

@@ -106,6 +106,23 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Global bottom decorative background (low opacity) */
+body::after {
+  content: '';
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  width: 100%;
+  max-width: 600px; /* match app width */
+  height: 160px; /* adjust as needed */
+  background: center bottom / cover no-repeat;
+  background-image: url('/public/images/flame.png');
+  opacity: .75; /* low opacity */
+  pointer-events: none; /* do not block clicks */
+  z-index: 850; /* above base backgrounds but below menus/modals */
+}
+
 /* Slider Styles */
 .offers-slider {
   position: relative;
