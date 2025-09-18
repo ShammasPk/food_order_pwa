@@ -5,8 +5,7 @@ import menuItems from '../data/menuItems.json';
 
 const Menu = ({ cart, addToCart, removeFromCart, user }) => {
   const [activeCategory, setActiveCategory] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [quantity, setQuantity] = useState({});
+  const [searchQuery] = useState('');
   const navigate = useNavigate();
   const categoryRefs = useRef({});
   const menuContainerRef = useRef(null);
@@ -37,7 +36,7 @@ const Menu = ({ cart, addToCart, removeFromCart, user }) => {
     if (Object.keys(filteredCategories).length > 0 && !activeCategory) {
       setActiveCategory(Object.keys(filteredCategories)[0]);
     }
-  }, [filteredCategories]);
+  }, [filteredCategories, activeCategory]);
 
   // Handle scroll to update active category
   useEffect(() => {
@@ -87,11 +86,7 @@ const Menu = ({ cart, addToCart, removeFromCart, user }) => {
     return cart.reduce((total, item) => total + item.quantity, 0);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('foodApp_user');
-    localStorage.removeItem('foodApp_cart');
-    window.location.reload();
-  };
+  // Note: logout handled from Home menu; no local usage here
 
   return (
     <div className="menu-page">

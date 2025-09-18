@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 const Admin = ({ orders, setOrders }) => {
   const [adminPassword, setAdminPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [selectedOrder, setSelectedOrder] = useState(null);
 
   const ADMIN_PASSWORD = 'admin123'; // In production, use proper authentication
 

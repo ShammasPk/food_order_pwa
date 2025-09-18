@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import menuItems from '../data/menuItems.json';
-import { FaShoppingCart, FaSignOutAlt, FaChevronRight, FaStar, FaPlus, FaBars, FaTimes } from 'react-icons/fa';
+import { FaShoppingCart, FaSignOutAlt, FaChevronRight, FaStar, FaPlus, FaBars, FaTimes, FaWhatsapp, FaPhone } from 'react-icons/fa';
 
 // Slider images
 const offerImages = [
@@ -110,6 +110,17 @@ const Home = ({ cart, addToCart, removeFromCart, user }) => {
       {/* Navigation Menu (moved outside header) */}
       <div className={`nav-menu ${isMenuOpen ? 'open' : ''}`}>
         <nav>
+          {/* Brand + Address */}
+          <div className="nav-menu-header">
+            <div className="brand-row">
+              <img src="/images/brand-logo.jpg" alt="Brand" className="nav-brand-logo" onError={(e)=>{e.currentTarget.style.display='none';}} />
+              <div className="nav-brand-name">GrillZilla</div>
+            </div>
+            <div className="nav-address">
+              123 Food Street, City Name, State - 123456
+            </div>
+          </div>
+
           <ul>
             <li><Link to="/home" onClick={() => setIsMenuOpen(false)}>Home</Link></li>
             <li><Link to="/menu" onClick={() => setIsMenuOpen(false)}>Menu</Link></li>
@@ -122,6 +133,14 @@ const Home = ({ cart, addToCart, removeFromCart, user }) => {
               </button>
             </li>
           </ul>
+
+          {/* Contact Footer */}
+          <div className="nav-menu-footer">
+            <a href="tel:+911234567890" className="contact-link"><FaPhone /> +91 12345 67890</a>
+            <a href="https://wa.me/911234567890" target="_blank" rel="noreferrer" className="whatsapp-link" style={{ display:'inline-flex', alignItems:'center', gap:8 }}>
+              <FaWhatsapp /> WhatsApp
+            </a>
+          </div>
         </nav>
       </div>
 
