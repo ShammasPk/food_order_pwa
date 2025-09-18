@@ -88,7 +88,14 @@ const Home = ({ cart, addToCart, removeFromCart, user }) => {
             </button>
           </div>
         </div>
-        <div className="location-bar">
+        <div
+          className="location-bar"
+          onClick={() => navigate('/delivery-address')}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') navigate('/delivery-address'); }}
+          aria-label="Choose delivery address"
+        >
           <span>Deliver to: {user?.address || 'Select Address'}</span>
           <FaChevronRight size={12} />
         </div>
