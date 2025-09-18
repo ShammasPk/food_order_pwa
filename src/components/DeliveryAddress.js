@@ -5,8 +5,8 @@ import flats from '../data/flats.json';
 
 const DeliveryAddress = ({ cart, placeOrder, user }) => {
   const [selectedFlat, setSelectedFlat] = useState('');
-  const [customAddress, setCustomAddress] = useState('');
-  const [useCustomAddress, setUseCustomAddress] = useState(false);
+  const [showFlats, setShowFlats] = useState(false);
+  const [selectedSaved, setSelectedSaved] = useState('');
   const [flatsList, setFlatsList] = useState([]);
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
@@ -23,10 +23,13 @@ const DeliveryAddress = ({ cart, placeOrder, user }) => {
   const [errors, setErrors] = useState({});
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const [lastOrderId, setLastOrderId] = useState(null);
+  const [savedAddresses, setSavedAddresses] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     setFlatsList(flats);
+    const saved = JSON.parse(localStorage.getItem('foodApp_saved_addresses') || '[]');
+    setSavedAddresses(saved);
   }, []);
 
   // Initialize defaults when details modal opens
@@ -59,22 +62,18 @@ const DeliveryAddress = ({ cart, placeOrder, user }) => {
   };
 
   const handlePlaceOrder = async (overrideAddress) => {
-    if (!useCustomAddress && !selectedFlat) {
+    if (!selectedSaved && !selectedFlat) {
       alert('Please select a delivery address');
-      return;
-    }
-
-    if (useCustomAddress && !customAddress.trim()) {
-      alert('Please enter your delivery address');
       return;
     }
 
     setIsPlacingOrder(true);
 
     const selected = flatsList.find(flat => flat.id === parseInt(selectedFlat));
+    const selectedSavedEntry = savedAddresses.find(a => a.id === parseInt(selectedSaved));
     const deliveryAddress = overrideAddress ?? (
-      useCustomAddress 
-        ? customAddress.trim()
+      selectedSavedEntry
+        ? `${selectedSavedEntry.fullName} | ${selectedSavedEntry.flatName}, ${selectedSavedEntry.blockName}, Flat ${selectedSavedEntry.flatNumber} | ${selectedSavedEntry.contactNumber}${selectedSavedEntry.note ? ' | Note: ' + selectedSavedEntry.note : ''}`
         : selected
           ? `${selected.flatName}, ${selected.address}`
           : ''
@@ -135,68 +134,74 @@ const DeliveryAddress = ({ cart, placeOrder, user }) => {
           Select Delivery Address
         </h2>
 
-        <div className="address-options">
-          <h3 style={{ marginBottom: '1rem', color: '#333' }}>Available Delivery Locations</h3>
-          
-          {flatsList.map(flat => (
-            <div 
-              key={flat.id}
-              className={`address-option ${selectedFlat === flat.id.toString() ? 'selected' : ''}`}
-              onClick={() => {
-                setSelectedFlat(flat.id.toString());
-                setUseCustomAddress(false);
-              }}
+        {/* Saved Addresses First */}
+        <div className="address-options" style={{ marginBottom: '1rem' }}>
+          <h3 style={{ marginBottom: '1rem', color: '#333' }}>Saved Addresses</h3>
+          {savedAddresses.length === 0 && (
+            <div className="address-option">
+              <div className="address-details">
+                <h4>No saved addresses yet</h4>
+                <p>Use Add New Address to create one.</p>
+              </div>
+            </div>
+          )}
+          {savedAddresses.map(sa => (
+            <div
+              key={sa.id}
+              className={`address-option ${selectedSaved === sa.id.toString() ? 'selected' : ''}`}
+              onClick={() => { setSelectedSaved(sa.id.toString()); setSelectedFlat(''); }}
             >
               <input
                 type="radio"
-                name="address"
-                value={flat.id}
-                checked={selectedFlat === flat.id.toString()}
+                name="saved"
+                value={sa.id}
+                checked={selectedSaved === sa.id.toString()}
                 onChange={() => {}}
                 className="address-radio"
               />
               <div className="address-details">
-                <h4>{flat.flatName}</h4>
-                <p>{flat.address}</p>
+                <h4>{sa.flatName} — Flat {sa.flatNumber}</h4>
+                <p>{sa.blockName} • {sa.fullName} • {sa.contactNumber}{sa.note ? ' • ' + sa.note : ''}</p>
               </div>
             </div>
           ))}
-
-          <div 
-            className={`address-option ${useCustomAddress ? 'selected' : ''}`}
-            onClick={() => {
-              setUseCustomAddress(true);
-              setSelectedFlat('');
-            }}
-          >
-            <input
-              type="radio"
-              name="address"
-              value="custom"
-              checked={useCustomAddress}
-              onChange={() => {}}
-              className="address-radio"
-            />
-            <div className="address-details">
-              <h4>Other Address</h4>
-              <p>Enter your custom delivery address</p>
-            </div>
-          </div>
         </div>
 
-        {useCustomAddress && (
-          <div className="custom-address">
-            <h3 style={{ marginBottom: '1rem', color: '#333' }}>Enter Your Address</h3>
-            <textarea
-              className="form-input"
-              placeholder="Enter your complete delivery address..."
-              value={customAddress}
-              onChange={(e) => setCustomAddress(e.target.value)}
-              rows="4"
-              style={{ resize: 'vertical', minHeight: '100px' }}
-            />
+        {/* Add New Address toggle */}
+        <div className="address-options">
+          <div 
+            className={`address-option ${showFlats ? 'selected' : ''}`}
+            onClick={() => setShowFlats(!showFlats)}
+          >
+            <div className="address-details">
+              <h4>Add New Address</h4>
+              <p>Select a flat to start and fill details</p>
+            </div>
           </div>
-        )}
+
+          {showFlats && (
+            <>
+              <h3 style={{ margin: '0 0 1rem 0', color: '#333' }}>Available Delivery Locations</h3>
+              {flatsList.map(flat => (
+                <div 
+                  key={flat.id}
+                  className={`address-option ${selectedFlat === flat.id.toString() ? 'selected' : ''}`}
+                  onClick={() => {
+                    setSelectedFlat(flat.id.toString());
+                    setSelectedSaved('');
+                    // Open details modal immediately to capture required info
+                    setIsDetailsOpen(true);
+                  }}
+                >
+                  <div className="address-details">
+                    <h4>{flat.flatName}</h4>
+                    <p>{flat.address}</p>
+                  </div>
+                </div>
+              ))}
+            </>
+          )}
+        </div>
 
         <div className="address-summary" style={{ marginTop: '1rem' }}>
           <div className="summary-row"><span>Items</span><span>{cart.length}</span></div>
@@ -208,12 +213,22 @@ const DeliveryAddress = ({ cart, placeOrder, user }) => {
             <button 
               className="view-menu-btn"
               onClick={() => {
-                // Open details modal for additional address info
-                if (!selectedFlat && !useCustomAddress) {
-                  alert('Please select a delivery address');
+                // If a saved address is selected, show confirmation directly
+                if (selectedSaved) {
+                  const sa = savedAddresses.find(a => a.id === parseInt(selectedSaved));
+                  if (sa) {
+                    const composed = `${sa.fullName} | ${sa.flatName}, ${sa.blockName}, Flat ${sa.flatNumber} | ${sa.contactNumber}${sa.note ? ' | Note: ' + sa.note : ''}`;
+                    setPendingAddress(composed);
+                    setIsConfirmOpen(true);
+                    return;
+                  }
+                }
+                // If a new flat is selected, open details modal to collect info
+                if (selectedFlat) {
+                  setIsDetailsOpen(true);
                   return;
                 }
-                setIsDetailsOpen(true);
+                alert('Please select a saved address or add a new one.');
               }}
               disabled={isPlacingOrder}
             >

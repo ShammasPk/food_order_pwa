@@ -115,6 +115,7 @@ const Home = ({ cart, addToCart, removeFromCart, user }) => {
             <li><Link to="/menu" onClick={() => setIsMenuOpen(false)}>Menu</Link></li>
             <li><Link to="/offers" onClick={() => setIsMenuOpen(false)}>Offers</Link></li>
             <li><Link to="/orders" onClick={() => setIsMenuOpen(false)}>My Orders</Link></li>
+            <li><Link to="/profile" onClick={() => setIsMenuOpen(false)}>Profile</Link></li>
             <li>
               <button onClick={handleLogout} className="logout-btn-nav">
                 <FaSignOutAlt /> Logout
