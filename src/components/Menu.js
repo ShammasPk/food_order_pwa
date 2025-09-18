@@ -153,9 +153,6 @@ const Menu = ({ cart, addToCart, removeFromCart, user }) => {
                 return (
                   <div key={item.id} className="menu-item">
                     <div className="item-details">
-                      <div className="veg-indicator">
-                        {item.veg ? '🟢' : '🔴'}
-                      </div>
                       <h3>{item.name}</h3>
                       <p className="price">₹{item.price}</p>
                       <p className="description">{item.description}</p>
@@ -170,6 +167,7 @@ const Menu = ({ cart, addToCart, removeFromCart, user }) => {
                     </div>
                     
                     <div className="item-image-container">
+                      <div className={`veg-indicator ${item.veg ? 'veg' : 'non-veg'}`}></div>
                       {item.image ? (
                         <img 
                           src={item.image} 

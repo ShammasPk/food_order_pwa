@@ -6,6 +6,7 @@ import Menu from './components/Menu';
 import Checkout from './components/Checkout';
 import DeliveryAddress from './components/DeliveryAddress';
 import Admin from './components/Admin';
+import ItemDetail from './components/ItemDetail';
 import './App.css';
 
 function App() {
@@ -129,6 +130,20 @@ function App() {
                 <Navigate to="/" />
               )
             } 
+          />
+          <Route 
+            path="/item/:id"
+            element={
+              user ? (
+                <ItemDetail
+                  cart={cart}
+                  addToCart={addToCart}
+                  removeFromCart={removeFromCart}
+                />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
           />
           <Route 
             path="/checkout" 
